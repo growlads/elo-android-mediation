@@ -10,9 +10,9 @@
 - Hide the CTA view when AdMob's `callToAction` is null/blank instead of
   substituting a fallback label, to keep creative integrity intact and
   align with AdMob native-ad rendering policy.
-- New `sponsoredLabel` constructor parameter on `AdMobNativeAdRenderer`
+- New `sponsoredLabel` constructor parameter on `AdMobNetworkAdapter`
   (default `"Sponsored"`) so consumers can localize the attribution chip
-  without subclassing.
+  without subclassing. The adapter threads it into the renderer.
 
 ## 0.0.1 — 2026-05-01
 

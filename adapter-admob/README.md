@@ -10,7 +10,7 @@ Maven coord: `ad.elo:elo-android-mediation-admob`
 // app/build.gradle.kts
 dependencies {
     implementation("ad.elo:elo-android-sdk:2.3.0")
-    implementation("ad.elo:elo-android-mediation-admob:0.0.1")
+    implementation("ad.elo:elo-android-mediation-admob:0.0.2")
 }
 ```
 
@@ -40,11 +40,16 @@ Growl.configure(
             adUnitId = "YOUR_GROWL_AD_UNIT",
         ),
         adapters = listOf(
-            AdMobNetworkAdapter(priceTiers = listOf(
-                AdMobPriceTier(adUnitId = "ca-app-pub-.../high",  eCpm = 5.00),
-                AdMobPriceTier(adUnitId = "ca-app-pub-.../mid",   eCpm = 2.00),
-                AdMobPriceTier(adUnitId = "ca-app-pub-.../floor", eCpm = 0.50),
-            )),
+            AdMobNetworkAdapter(
+                priceTiers = listOf(
+                    AdMobPriceTier(adUnitId = "ca-app-pub-.../high",  eCpm = 5.00),
+                    AdMobPriceTier(adUnitId = "ca-app-pub-.../mid",   eCpm = 2.00),
+                    AdMobPriceTier(adUnitId = "ca-app-pub-.../floor", eCpm = 0.50),
+                ),
+                // Optional: localize the attribution chip rendered above
+                // each AdMob creative. Defaults to "Sponsored".
+                // sponsoredLabel = "Werbung",
+            ),
         ),
     ),
 )

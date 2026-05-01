@@ -26,7 +26,7 @@ dependencyResolutionManagement {
 // app/build.gradle.kts
 dependencies {
     implementation("ad.elo:elo-android-sdk:2.3.0")
-    implementation("ad.elo:elo-android-mediation-admob:0.0.1")
+    implementation("ad.elo:elo-android-mediation-admob:0.0.2")
 }
 ```
 
@@ -37,6 +37,7 @@ construction parameters.
 
 | `elo-android-mediation` | `elo-android-mediation-admob` runtime | `play-services-ads` | `elo-android-sdk` |
 | --- | --- | --- | --- |
+| 0.0.2 | 0.0.2 | 23.6.0+ | 2.3.0+ |
 | 0.0.1 | 0.0.1 | 23.6.0+ | 2.3.0+ |
 
 The runtime adapter version is exposed at runtime as

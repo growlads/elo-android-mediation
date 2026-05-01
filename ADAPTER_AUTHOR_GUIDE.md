@@ -87,7 +87,7 @@ public data class AdBidRequest(
 
 Most third-party networks ignore `messages`, `contextObjects`, `character`, `conversationId`, `variantId` — those exist to feed Elo's contextual targeting. **Don't forward them to other networks** unless you have explicit consent and a privacy review; chat messages are sensitive by default.
 
-`adUnitId` is the publisher's Growl ad unit ID. Map it to your network's placement ID via your own configuration (passed into your adapter's constructor by the consumer app).
+`adUnitId` is the publisher's Elo ad unit ID. Map it to your network's placement ID via your own configuration (passed into your adapter's constructor by the consumer app).
 
 `consent` is read once per auction by `GrowlState` and snapshotted on every adapter so they all bid against the same picture. See `AdConsent` for fields.
 
@@ -202,7 +202,7 @@ GrowlAd(
 )
 ```
 
-Set `renderer = null` (the default) for URL-ping-tracked ads — Growl's own `GrowlNetworkAdapter` works this way. Adapter consumers can branch on `ad.requiresCustomRendering` to decide which surface to show:
+Set `renderer = null` (the default) for URL-ping-tracked ads — Elo's own `GrowlNetworkAdapter` works this way. Adapter consumers can branch on `ad.requiresCustomRendering` to decide which surface to show:
 
 ```kotlin
 if (ad.requiresCustomRendering) {

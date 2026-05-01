@@ -55,14 +55,14 @@ Growl.configure(
 AdMob native ads must be displayed via `GrowlAdView` only — that view embeds
 the adapter's `NativeAdView` (and its registered asset slots) so AdMob's
 billing counts the impression. `GrowlBadgeAdView` and `GrowlChatAdView` are
-Growl-styled and reject adapter-rendered ads at runtime; branch on
+Elo-styled and reject adapter-rendered ads at runtime; branch on
 `ad.requiresCustomRendering` if a screen mixes formats.
 
 ```kotlin
 if (ad.requiresCustomRendering) {
     GrowlAdView(ad)            // AdMob fills land here
 } else {
-    GrowlBadgeAdView(ad)       // Growl-direct fills only
+    GrowlBadgeAdView(ad)       // Elo-direct fills only
 }
 ```
 

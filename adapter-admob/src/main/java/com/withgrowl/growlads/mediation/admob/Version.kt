@@ -6,5 +6,5 @@ package com.withgrowl.growlads.mediation.admob
  * `Growl.mediationDebugSnapshot()` for bug reports.
  */
 public object AdMobAdapter {
-    public const val VERSION: String = "0.0.1"
+    public const val VERSION: String = "0.0.2"
 }

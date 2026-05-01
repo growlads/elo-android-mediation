@@ -48,7 +48,11 @@ dependencies {
 
 mavenPublishing {
     publishToMavenCentral(automaticRelease = true, validateDeployment = DeploymentValidation.PUBLISHED)
-    signAllPublications()
+    // Signing is required for Maven Central but skipped for mavenLocal
+    // iteration. Re-enable when running the publish workflow.
+    if (gradle.startParameter.taskNames.none { it.endsWith("ToMavenLocal") }) {
+        signAllPublications()
+    }
 
     coordinates("ad.elo", "elo-android-mediation-admob", rootProject.version.toString())
     pom {
@@ -65,7 +69,7 @@ mavenPublishing {
         developers {
             developer {
                 id.set("growlads")
-                name.set("Growl")
+                name.set("Elo")
                 url.set("https://elo.ad")
             }
         }

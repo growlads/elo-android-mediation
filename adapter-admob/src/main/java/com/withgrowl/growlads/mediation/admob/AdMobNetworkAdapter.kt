@@ -34,10 +34,18 @@ import kotlin.coroutines.resumeWithException
  * ))
  * ```
  *
+ * @param priceTiers ordered ladder of AdMob ad units + eCPM floors. The
+ * adapter walks them top-down on each request and bids the first non-empty
+ * fill into Elo's auction.
+ * @param sponsoredLabel attribution label rendered above each AdMob
+ * creative. Defaults to `"Sponsored"`; pass a localized string for non-
+ * English markets (e.g. `"Werbung"`, `"広告"`).
+ *
  * Mirrors iOS `AdMobNetworkAdapter`.
  */
 public class AdMobNetworkAdapter(
     private val priceTiers: List<AdMobPriceTier>,
+    private val sponsoredLabel: String = "Sponsored",
 ) : AdNetworkAdapter {
 
     init {
@@ -87,7 +95,7 @@ public class AdMobNetworkAdapter(
                     return@forNativeAd
                 }
                 val tracker = AdMobNativeTracker(nativeAd)
-                val renderer = AdMobNativeAdRenderer(nativeAd)
+                val renderer = AdMobNativeAdRenderer(nativeAd, sponsoredLabel = sponsoredLabel)
                 val ad = AdMobCreativeMapper.makeCreative(
                     assets = AdMobNativeAssets(
                         identifier = stableCreativeId(nativeAd),

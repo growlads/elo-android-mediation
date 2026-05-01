@@ -4,7 +4,7 @@ First-party mediation adapters for the [Elo Android SDK](https://github.com/grow
 
 Each adapter wraps a third-party ad network SDK and conforms to the
 `AdNetworkAdapter` contract from `ad.elo:elo-android-sdk`. Adapters
-participate in Growl's parallel first-price auction.
+participate in Elo's parallel first-price auction.
 
 ## Available adapters
 

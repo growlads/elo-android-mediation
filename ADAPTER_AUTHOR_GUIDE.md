@@ -1,6 +1,6 @@
 # Adapter Author Guide
 
-How to add a new ad network to the Growl Android SDK by writing an `AdNetworkAdapter`. The contract here is **v1** and the SDK is pre-1.0 — expect breaking changes; we'll call them out in release notes.
+How to add a new ad network to the Elo Android SDK by writing an `AdNetworkAdapter`. The contract here is **v1** and the SDK is pre-1.0 — expect breaking changes; we'll call them out in release notes.
 
 For the bigger-picture mediation design, see the spec at `docs/superpowers/specs/2026-04-29-android-sdk-parity-with-ios-design.md`. For consumer-facing usage, see `README.md`.
 
@@ -12,7 +12,7 @@ An `AdNetworkAdapter` is a single ad demand source registered on `GrowlConfigura
 
 Adapters live in their own Gradle module (typically a separate published artifact, e.g. `com.withgrowl:growl-android-mediation-admob`). They depend on the SDK as a `compileOnly` API consumer; the consumer app pulls in both the SDK and the adapter modules.
 
-Growl's own demand is wired in by the SDK as a first-party adapter (`GrowlNetworkAdapter`); consumers don't construct or register it.
+Elo's own demand is wired in by the SDK as a first-party adapter (`GrowlNetworkAdapter`); consumers don't construct or register it.
 
 ---
 
@@ -85,7 +85,7 @@ public data class AdBidRequest(
 )
 ```
 
-Most third-party networks ignore `messages`, `contextObjects`, `character`, `conversationId`, `variantId` — those exist to feed Growl's contextual targeting. **Don't forward them to other networks** unless you have explicit consent and a privacy review; chat messages are sensitive by default.
+Most third-party networks ignore `messages`, `contextObjects`, `character`, `conversationId`, `variantId` — those exist to feed Elo's contextual targeting. **Don't forward them to other networks** unless you have explicit consent and a privacy review; chat messages are sensitive by default.
 
 `adUnitId` is the publisher's Growl ad unit ID. Map it to your network's placement ID via your own configuration (passed into your adapter's constructor by the consumer app).
 
@@ -111,7 +111,7 @@ public data class AdBid(
 
 `networkId` should match the adapter's `networkId` — set it explicitly so a single adapter that fronts multiple networks (rare but legal) can attribute correctly.
 
-`eCpm` is the price you're bidding, in USD-equivalent CPM (cost per thousand impressions). The mediator picks the highest. **Don't lie** — bidding above your real eCPM gets you delisted. Networks that don't surface a price at request-time (Growl's first-party adapter is one) report a publisher-configured `assumedECpm` instead.
+`eCpm` is the price you're bidding, in USD-equivalent CPM (cost per thousand impressions). The mediator picks the highest. **Don't lie** — bidding above your real eCPM gets you delisted. Networks that don't surface a price at request-time (Elo's first-party adapter is one) report a publisher-configured `assumedECpm` instead.
 
 `ad` is your adapter's `GrowlAd` — **you map your network's creative payload to the SDK's `GrowlAd` shape inside your adapter, not in the SDK**. Critically, `GrowlAd.tracker` (an `AdTracker` instance) is how the SDK fires render/impression/click telemetry without knowing your network. See "Tracking" below.
 
@@ -159,7 +159,7 @@ public interface AdTracker {
 
 The SDK calls these three methods at the right moments — render fires on first composition of the ad view, impression fires after the ≥50%-visible-for-1-second viewability gate, click fires when the user taps. Your `AdTracker` is where network-specific telemetry happens.
 
-Implement `AdTracker` inside your adapter module — third-party adapters should ship their own implementation tailored to how their network reports impressions and clicks. The SDK's first-party `UrlPingTracker` is `internal` and wired to Growl's internal HTTP client; it is not part of the public API surface.
+Implement `AdTracker` inside your adapter module — third-party adapters should ship their own implementation tailored to how their network reports impressions and clicks. The SDK's first-party `UrlPingTracker` is `internal` and wired to Elo's internal HTTP client; it is not part of the public API surface.
 
 - **URL-pinged networks**: write a tracker that uses your own HTTP client (OkHttp, Ktor, etc.) to fire pings off the UI thread. Wrap each call in `withContext(Dispatchers.IO)` and use `runCatching` so a failed ping never throws into the SDK.
 - **SDK-callback networks** (e.g. AdMob): implement an `AdTracker` that calls `nativeAd.recordImpression()` inside `trackImpression()` and `nativeAd.performClick(asset)` inside `trackClick()`.
@@ -208,11 +208,11 @@ Set `renderer = null` (the default) for URL-ping-tracked ads — Growl's own `Gr
 if (ad.requiresCustomRendering) {
     GrowlAdView(ad)             // delegates to the renderer-aware surface
 } else {
-    GrowlBadgeAdView(ad)        // fine for Growl-direct fills
+    GrowlBadgeAdView(ad)        // fine for Elo-direct fills
 }
 ```
 
-`GrowlBadgeAdView` and `GrowlChatAdView` are Growl-styled and **ignore** the renderer. Adapter authors must document which ad surfaces are safe for their network's creatives. For AdMob, only `GrowlAdView` is safe.
+`GrowlBadgeAdView` and `GrowlChatAdView` are Elo-styled and **ignore** the renderer. Adapter authors must document which ad surfaces are safe for their network's creatives. For AdMob, only `GrowlAdView` is safe.
 
 **Lifecycle:**
 

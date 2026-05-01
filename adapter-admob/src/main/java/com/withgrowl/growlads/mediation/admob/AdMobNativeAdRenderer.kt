@@ -25,12 +25,18 @@ import com.withgrowl.growlandroidsdk.mediation.tracking.AdRenderer
  *
  * Embedded by Elo's rendered-ad surface via `AndroidView { renderer.makeView(it) }`.
  *
+ * @param nativeAd the AdMob `NativeAd` whose assets will be rendered.
+ * @param sponsoredLabel the attribution label rendered above the creative.
+ * Defaults to `"Sponsored"`; pass a localized string to render in another
+ * language.
+ *
  * `release` calls `NativeAd.destroy()` — JVM has no automatic cleanup hook
  * for the native pointer Google Mobile Ads SDK holds, so the renderer must
  * release it when the embedding composable leaves composition.
  */
 public class AdMobNativeAdRenderer(
     private val nativeAd: NativeAd,
+    private val sponsoredLabel: String = "Sponsored",
 ) : AdRenderer {
 
     override val minimumDisplayHeightDp: Int = 96
@@ -66,7 +72,7 @@ public class AdMobNativeAdRenderer(
         // own line so it never gets clipped by the AdChoices badge AdMob
         // places top-right of the NativeAdView.
         val sponsored = TextView(context).apply {
-            text = "Sponsored"
+            text = sponsoredLabel
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 11f)
             setTextColor(resolveSecondaryTextColor(context))
             typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
@@ -177,7 +183,12 @@ public class AdMobNativeAdRenderer(
             visibility = if (nativeAd.body.isNullOrBlank()) View.GONE else View.VISIBLE
         }
         (nativeAdView.callToActionView as? TextView)?.apply {
-            text = nativeAd.callToAction?.takeIf { it.isNotBlank() } ?: "Open"
+            // Don't fabricate a CTA when the creative omits one — substituting
+            // a generic label ("Open", etc.) misrepresents the ad and can run
+            // afoul of AdMob's native-ad rendering policy.
+            val cta = nativeAd.callToAction?.takeIf { it.isNotBlank() }
+            text = cta
+            visibility = if (cta == null) View.GONE else View.VISIBLE
         }
         nativeAd.icon?.drawable?.let { drawable ->
             (nativeAdView.iconView as? ImageView)?.setImageDrawable(drawable)

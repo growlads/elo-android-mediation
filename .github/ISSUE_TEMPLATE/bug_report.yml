@@ -1,0 +1,66 @@
+name: Bug report
+description: A mediation adapter is misbehaving.
+labels: ["bug"]
+body:
+  - type: input
+    id: adapter
+    attributes:
+      label: Adapter
+      description: Which adapter module? e.g. adapter-admob
+      placeholder: "adapter-admob"
+    validations:
+      required: true
+  - type: input
+    id: adapter_version
+    attributes:
+      label: Adapter version
+      placeholder: "0.0.2"
+    validations:
+      required: true
+  - type: input
+    id: vendor_sdk_version
+    attributes:
+      label: Underlying ad network SDK version
+      placeholder: "Google Mobile Ads 23.x"
+    validations:
+      required: true
+  - type: input
+    id: elo_sdk_version
+    attributes:
+      label: Elo SDK version
+      placeholder: "2.2.3"
+    validations:
+      required: true
+  - type: input
+    id: android_api
+    attributes:
+      label: Android API level
+      placeholder: "34"
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device / emulator
+      placeholder: "Pixel 8 / API 34 emulator"
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal repro. Code snippets help.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs. actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Logcat output (filter on `Growl` and the ad network), stack traces, etc.
+      render: shell

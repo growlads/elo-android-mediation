@@ -1,0 +1,25 @@
+name: Integration question
+description: Help with wiring a mediation adapter into your app.
+labels: ["question"]
+body:
+  - type: input
+    id: adapter
+    attributes:
+      label: Adapter
+      placeholder: "adapter-admob"
+  - type: input
+    id: elo_sdk_version
+    attributes:
+      label: Elo SDK version
+      placeholder: "2.2.3"
+  - type: textarea
+    id: goal
+    attributes:
+      label: What are you trying to do?
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you tried?
+      description: Code snippets, links to your repo, etc.

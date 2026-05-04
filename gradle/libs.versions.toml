@@ -2,7 +2,7 @@
 agp = "8.13.2"
 kotlin = "2.2.0"
 elo-android-sdk = "2.3.0"
-play-services-ads = "23.6.0"
+play-services-ads = "25.2.0"
 kotlinx-coroutines = "1.8.1"
 mockk = "1.13.10"
 junit = "4.13.2"

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Elo docs
+    url: https://elo.ad/docs/android
+    about: Documentation, install guide, API reference.
+  - name: Adapter author guide
+    url: https://github.com/growlads/elo-android-mediation/blob/main/ADAPTER_AUTHOR_GUIDE.md
+    about: Building a new mediation adapter.
